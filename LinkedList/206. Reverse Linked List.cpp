@@ -8,6 +8,34 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+/*
+ * Case1: 
+ */
+
+class Solution {
+public:
+    struct ListNode* reverseList(struct ListNode* head)
+    {
+        struct ListNode* pNode = nullptr;
+        struct ListNode* qNode = nullptr;
+
+        while(nullptr != head)
+        {
+            qNode = head->next;
+            head->next = pNode;
+            pNode = head;
+            head = qNode;
+        }
+
+        return pNode;
+    }
+};
+
+/*
+ * Case2: Use virtual head node
+ */
+
 class Solution {
 public:
     struct ListNode* reverseList(struct ListNode* head)
