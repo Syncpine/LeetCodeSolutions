@@ -10,16 +10,11 @@ class Solution {
 public:
     struct ListNode *detectCycle(struct ListNode *head)
     {
-        if(!hasCycle(head))
-        {
-            return nullptr;
-        }
-
         struct ListNode* curNode = head;
 
         std::set<ListNode*> addressSet;
 
-        while(true)
+        while(nullptr != curNode)
         {
             if(1 == addressSet.count(curNode))
             {
@@ -31,37 +26,5 @@ public:
         }
 
         return nullptr;
-    }
-
-private:
-    bool hasCycle(struct ListNode *head)
-    {
-        if(nullptr == head)
-        {
-            return false;
-        }
-
-        struct ListNode* fastNode = head;
-        struct ListNode* slowNode = head;
-
-        while(nullptr != fastNode)
-        {
-            fastNode = fastNode->next;
-            slowNode = slowNode->next;
-
-            if(nullptr == fastNode)
-            {
-                return false;
-            }
-
-            fastNode = fastNode->next;
-
-            if(fastNode == slowNode)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 };
