@@ -8,6 +8,112 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+/*
+ * Case1: Use std::stack<>
+ */
+
+#include <stack>
+
+class Solution {
+public:
+    struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
+    {
+        if(nullptr == l1)
+        {
+            return l2;
+        }
+
+        if(nullptr == l2)
+        {
+            return l1;
+        }
+
+        std::stack<int> st1;
+        std::stack<int> st2;
+        std::stack<int> st;
+
+        int cc = 0;
+
+        struct ListNode* l3 = nullptr;
+        struct ListNode* ptr = nullptr;
+
+        ListValue2Stack(l1, st1);
+        ListValue2Stack(l2, st2);
+
+        while(!st1.empty() && !st2.empty())
+        {
+            int curVal = st1.top() + st2.top() + cc;
+
+            cc = curVal / 10;
+            curVal = curVal % 10;
+
+            st.push(curVal);
+
+            st1.pop();
+            st2.pop();
+        }
+
+        while(!st1.empty())
+        {
+            int curVal = st1.top() + cc;
+
+            cc = curVal / 10;
+            curVal = curVal % 10;
+
+            st.push(curVal);
+
+            st1.pop();
+        }
+
+        while(!st2.empty())
+        {
+            int curVal = st2.top() + cc;
+
+            cc = curVal / 10;
+            curVal = curVal % 10;
+
+            st.push(curVal);
+
+            st2.pop();
+        }
+
+        if(1 == cc)
+        {
+            st.push(cc);
+        }
+
+        l3 = new ListNode(st.top(), nullptr);
+        ptr = l3;
+        st.pop();
+
+        while(!st.empty())
+        {
+            ptr->next = new ListNode(st.top());
+            ptr = ptr->next;
+            st.pop();
+        }
+
+        return l3;
+    }
+
+private:
+    void ListValue2Stack(struct ListNode* head, std::stack<int>& st)
+    {
+        struct ListNode* ptr = head;
+
+        while(nullptr != ptr)
+        {
+            st.push(ptr->val);
+            ptr = ptr->next;
+        }
+    }
+};
+
+/*
+ * Case2: Use reverseList()
+ */
+
 class Solution {
 public:
     struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
