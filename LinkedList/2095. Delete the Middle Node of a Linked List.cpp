@@ -19,31 +19,27 @@ public:
             return head;
         }
 
-        struct ListNode* ptr = head;
-        auto nodeCount = 0;
-        auto middleIndex = 0;
+        struct ListNode* slow = head;
+        struct ListNode* fast = head;
 
-        while(nullptr != ptr)
+        fast = fast->next;
+
+        while(nullptr != fast->next)
         {
-            ptr = ptr->next;
-            ++nodeCount;
-        }
+            fast = fast->next;
 
-        middleIndex = nodeCount / 2;
-
-        ptr = head;
-
-        while(true)
-        {
-            --middleIndex;
-            if(middleIndex <= 0)
+            if(nullptr == fast->next)
             {
                 break;
             }
-            ptr = ptr->next;
+
+            slow = slow->next;
+            fast = fast->next;
         }
 
-        ptr->next = ptr->next->next;
+        fast = slow->next;
+        slow->next = fast->next;
+        delete fast;
 
         return head;
     }
