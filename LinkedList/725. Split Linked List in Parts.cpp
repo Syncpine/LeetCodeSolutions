@@ -14,11 +14,11 @@ public:
     {
         std::vector<struct ListNode*> vecList;
 
+        struct ListNode* curHead = head;
+        struct ListNode* curTail = head;
         struct ListNode* ptr = head;
 
         auto nodeCount = 0;
-        auto ss = 0;
-        auto mod = 0;
 
         while(nullptr != ptr)
         {
@@ -26,62 +26,33 @@ public:
             ++nodeCount;
         }
 
-        ss = nodeCount / k;
-        mod = nodeCount % k;
+        auto cc = nodeCount / k;
+        auto mod = nodeCount % k;
 
-        for(int index = 0; index < mod; ++index)
+        for(auto index = 0; index < k; ++index)
         {
-            struct ListNode* firstNode = nullptr;
-            int m = ss + 1;
-            ptr = head;
+            ptr = curHead;
 
-            while(m > 0)
+            nodeCount = (mod > 0) ? cc + 1 : cc;
+            --mod;
+
+            if(0 == nodeCount)
             {
-                ptr = head;
-                head = head->next;
-                
-                if(nullptr == firstNode)
-                {
-                    firstNode = ptr;
-                }
-
-                --m;
-            }
-
-            ptr->next = nullptr;
-            vecList.push_back(firstNode);
-        }
-
-        mod = k - mod;
-
-        for(int index = 0; index < mod; ++index)
-        {
-            struct ListNode* firstNode = nullptr;
-
-            if(0 == ss)
-            {
-                vecList.push_back(firstNode);
+                vecList.push_back(nullptr);
                 continue;
             }
 
-            int m = ss;
-            ptr = head;
-
-            while(m > 0)
+            while(nodeCount > 0)
             {
-                ptr = head;
-                head = head->next;
-                
-                if(nullptr == firstNode)
-                {
-                    firstNode = ptr;
-                }
-
-                --m;
+                curTail = ptr;
+                ptr = ptr->next;
+                --nodeCount;
             }
 
-            ptr->next = nullptr;
-            vecList.push_back(firstNode);
+            curTail->next = nullptr;
+            vecList.push_back(curHead);
+
+            curHead = ptr;
         }
 
         return vecList;
