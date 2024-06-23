@@ -1,3 +1,26 @@
+/*
+ * Case1: 
+ */
+
+class Solution {
+public:
+    int titleToNumber(const std::string& columnTitle)
+    {
+        int ret = 0;
+
+        for(auto ch : columnTitle)
+        {
+            ret = ret * 26 + (ch - 'A' + 1);
+        }
+
+        return ret;
+    }
+};
+
+/*
+ * Case2: 
+ */
+
 class Solution1 {
 public:
     int titleToNumber(const std::string& columnTitle)
